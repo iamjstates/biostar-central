@@ -24,3 +24,4 @@ biostar/settings/logger_*.py
 
 # Virtual enivironment
 bin/*
+lib/*

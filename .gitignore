@@ -27,3 +27,4 @@ bin/*
 lib/*
 share/*
 pyvenv.cfg
+Dockerfile

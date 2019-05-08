@@ -4,7 +4,7 @@ from django.contrib.syndication.views import Feed
 from django.shortcuts import get_object_or_404
 from biostar.apps.posts.models import Post
 from biostar.apps.users.models import User
-from biostar.apps.messages.models import Message
+from biostar.apps.messaging.models import Message
 from biostar.apps.planet.models import BlogPost
 
 from django.conf import settings

@@ -1,11 +1,7 @@
 """
 Constants that may be used in multiple packages
 """
-try:
-    from collections import OrderedDict
-except ImportError, exc:
-    # Python 2.6.
-    from ordereddict import OrderedDict
+from collections import OrderedDict
 
 from django.utils.timezone import utc
 from datetime import datetime
@@ -15,7 +11,7 @@ LOCAL_MESSAGE, EMAIL_MESSAGE, NO_MESSAGES, DEFAULT_MESSAGES, ALL_MESSAGES = rang
 
 MESSAGING_MAP = OrderedDict([
     (DEFAULT_MESSAGES, "default",),
-    (LOCAL_MESSAGE, "local messages",),
+    (LOCAL_MESSAGE, "local messaging",),
     (EMAIL_MESSAGE, "email",),
     (ALL_MESSAGES, "email for every new thread (mailing list mode)",),
 ])

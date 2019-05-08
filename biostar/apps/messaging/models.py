@@ -1,5 +1,5 @@
 '''
-Inspired by django-messages at https://github.com/arneb/django-messages
+Inspired by django-messaging at https://github.com/arneb/django-messages
 '''
 
 from __future__ import print_function, unicode_literals, absolute_import, division
@@ -19,11 +19,11 @@ def now():
 class MessageManager(models.Manager):
 
     def inbox_for(self, user):
-        "Returns all messages that were received by the given user"
+        "Returns all messaging that were received by the given user"
         return self.filter(recipient=user)
 
     def outbox_for(self, user):
-        "Returns all messages that were sent by the given user."
+        "Returns all messaging that were sent by the given user."
         return self.filter(sender=user)
 
 # A message body is information sent to users.
@@ -55,9 +55,9 @@ from biostar.const import LOCAL_MESSAGE, MESSAGING_TYPE_CHOICES
 
 # Connects user to message bodies
 class Message(models.Model):
-    "Connects recipents to sent messages"
+    "Connects recipents to sent messaging"
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='recipients', verbose_name=_("Recipient"))
-    body = models.ForeignKey(MessageBody, related_name='messages', verbose_name=_("Message"))
+    body = models.ForeignKey(MessageBody, related_name='messaging', verbose_name=_("Message"))
     type = models.IntegerField(choices=MESSAGING_TYPE_CHOICES, default=LOCAL_MESSAGE, db_index=True)
     unread = models.BooleanField(default=True)
     sent_at = models.DateTimeField(db_index=True, null=True)
@@ -71,7 +71,7 @@ class Message(models.Model):
 
     @staticmethod
     def inbox_count_for(user):
-        "Returns the number of unread messages for the given user but does not mark them seen"
+        "Returns the number of unread messaging for the given user but does not mark them seen"
         return MessageBody.objects.filter(recipient=user, unread=True).count()
 
     def email_tuple(self, recipient_list, from_email=None):

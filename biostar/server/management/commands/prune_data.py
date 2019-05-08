@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
 def main(days=1, weeks=10):
     from biostar.apps.posts.models import PostView, ReplyToken
-    from biostar.apps.messages.models import Message
+    from biostar.apps.messaging.models import Message
     from biostar.apps.users.models import User
     from django.db.models import Count
 
@@ -37,10 +37,10 @@ def main(days=1, weeks=10):
     logger.info(msg)
     query.delete()
 
-    # Reduce messages.
+    # Reduce messaging.
     since = now() - timedelta(weeks=weeks)
     query = Message.objects.filter(sent_at__lt=since)
-    msg = "deleting %s messages" % query.count()
+    msg = "deleting %s messaging" % query.count()
     logger.info(msg)
     query.delete()
 
@@ -50,7 +50,7 @@ def main(days=1, weeks=10):
     logger.info(msg)
     query.delete()
 
-    # Get rid of too many messages
+    # Get rid of too many messaging
     MAX_MSG = 100
     users = User.objects.annotate(total=Count("recipients")).filter(total__gt=MAX_MSG)[:100]
     for user in users:

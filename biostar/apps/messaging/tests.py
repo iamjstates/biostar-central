@@ -8,7 +8,7 @@ import logging
 from django.conf import settings
 from biostar.apps.users.models import User, Profile
 from biostar.apps.posts.models import Post, Subscription
-from biostar.apps.messages.models import Message
+from biostar.apps.messaging.models import Message
 from django.core import mail
 
 from django.test import TestCase
@@ -68,7 +68,7 @@ class NoteTest(TestCase):
         # Every user has one subscription to the main post
         eq(email_count, Subscription.objects.all().count())
 
-        # Each user has a messages for content posted after
+        # Each user has a messaging for content posted after
         # they started following the thread.
         for index, user in enumerate(users):
             mesg_c = Message.objects.filter(user=user).count()

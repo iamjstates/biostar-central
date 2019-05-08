@@ -8,7 +8,7 @@ from biostar.apps.users.models import User, Profile
 from biostar import const
 from django.core.cache import cache
 from biostar.apps.posts.models import Post, Vote
-from biostar.apps.messages.models import Message
+from biostar.apps.messaging.models import Message
 from biostar.apps.planet.models import BlogPost
 
 from collections import defaultdict
@@ -132,8 +132,8 @@ def get_counts(request, weeks=settings.COUNT_INTERVAL_WEEKS):
 
     # Compute a few more counts for the user.
     if user.is_authenticated():
-        # These are the new messages since the last login.
-        counts['messages'] = Message.objects.filter(user=user, unread=True, sent_at__gt=since).count()
+        # These are the new messaging since the last login.
+        counts['messaging'] = Message.objects.filter(user=user, unread=True, sent_at__gt=since).count()
 
         # These are the new votes since the last login.
         counts['votes'] = Vote.objects.filter(post__author=user, date__gt=since).count()

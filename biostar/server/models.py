@@ -11,7 +11,7 @@ from allauth.account.signals import user_signed_up
 from allauth.socialaccount.signals import social_account_added
 
 from biostar.apps.posts.models import Post, Subscription, ReplyToken
-from biostar.apps.messages.models import Message, MessageBody
+from biostar.apps.messaging.models import Message, MessageBody
 from biostar.apps.badges.models import Award
 from biostar.server.orcid import hook_social_account_added
 
@@ -25,11 +25,11 @@ from django.contrib.sites.models import Site
 logger = logging.getLogger(__name__)
 
 # This will be the message body on the site.
-POST_CREATED_TEXT = "messages/post_created.txt"
-POST_CREATED_HTML = "messages/post_created.html"
-POST_CREATED_SHORT = "messages/post_created_short.html"
+POST_CREATED_TEXT = "messaging/post_created.txt"
+POST_CREATED_HTML = "messaging/post_created.html"
+POST_CREATED_SHORT = "messaging/post_created_short.html"
 
-AWARD_CREATED_HTML_TEMPLATE = "messages/award_created.html"
+AWARD_CREATED_HTML_TEMPLATE = "messaging/award_created.html"
 
 # This will be the message body in an email.
 
@@ -70,7 +70,7 @@ def post_create_messages(sender, instance, created, *args, **kwargs):
         # Collects the emails for bulk sending.
         emails, tokens = [], []
 
-        # This generator will produce the messages.
+        # This generator will produce the messaging.
         def messages():
             for sub in subs:
                 message = Message(user=sub.user, body=body, sent_at=body.sent_at)
@@ -100,12 +100,12 @@ def post_create_messages(sender, instance, created, *args, **kwargs):
 
                 yield message
 
-        # Bulk insert of all messages. Bypasses the Django ORM!
+        # Bulk insert of all messaging. Bypasses the Django ORM!
         Message.objects.bulk_create(messages(), batch_size=100)
         ReplyToken.objects.bulk_create(tokens, batch_size=100)
 
         try:
-            # Bulk sending email messages.
+            # Bulk sending email messaging.
             conn = mail.get_connection()
             conn.send_messages(emails)
         except Exception, exc:
@@ -129,15 +129,15 @@ def award_create_messages(sender, instance, created, *args, **kwargs):
         message = Message.objects.create(user=user, body=body, sent_at=body.sent_at)
 
 # Creates a message to everyone involved
-signals.post_save.connect(post_create_messages, sender=Post, dispatch_uid="post-create-messages")
+signals.post_save.connect(post_create_messages, sender=Post, dispatch_uid="post-create-messaging")
 
 # Creates a message when an award has been made
-signals.post_save.connect(award_create_messages, sender=Award, dispatch_uid="award-create-messages")
+signals.post_save.connect(award_create_messages, sender=Award, dispatch_uid="award-create-messaging")
 
 
 def disconnect_all():
-    signals.post_save.disconnect(post_create_messages, sender=Post, dispatch_uid="post-create-messages")
-    signals.post_save.disconnect(award_create_messages, sender=Award, dispatch_uid="award-create-messages")
+    signals.post_save.disconnect(post_create_messages, sender=Post, dispatch_uid="post-create-messaging")
+    signals.post_save.disconnect(award_create_messages, sender=Award, dispatch_uid="award-create-messaging")
 
 
 # django-allauth sends a signal when a new user is created using a social provider or a new social

@@ -212,7 +212,7 @@ def merge_users(fname):
     from biostar.apps.posts.models import Post, Subscription, ReplyToken
     from biostar.apps.posts.models import Vote
     from biostar.apps.users.models import User
-    from biostar.apps.messages.models import Message, MessageBody
+    from biostar.apps.messaging.models import Message, MessageBody
     from allauth.socialaccount.models import SocialAccount
     from allauth.account.models import EmailAddress
 

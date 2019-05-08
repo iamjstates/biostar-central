@@ -63,7 +63,7 @@ def get_env(name, default=None, strict=False, func=None):
     if func:
         return func(value)
     else:
-        return unicode(value, encoding="utf-8")
+        return value
 
 
 def abspath(*args):
@@ -271,36 +271,27 @@ MESSAGE_TAGS = {
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
-
-    # 'django.contrib.sessions',
-
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
-
     # The javascript and CSS asset manager.
     'compressor',
-
     # Enabling the admin and its documentation.
-    'django.contrib.sites',
     'django.contrib.admin',
-    'django.contrib.messages',
     'django.contrib.humanize',
     'django.contrib.flatpages',
     'django.contrib.sessions',
-
     # Biostar specific apps.
-    'biostar.apps.users',
-    'biostar.apps.util',
-    'biostar.apps.posts',
-    'biostar.apps.messages',
-    'biostar.apps.badges',
-    'biostar.apps.planet',
-
+    'biostar.apps.BiostarConfig',
+    #'biostar.apps.users',
+    #'biostar.apps.util',
+    #'biostar.apps.posts',
+    #'biostar.apps.messaging',
+    #'biostar.apps.badges',
+    #'biostar.apps.planet',
     # The main Biostar server.
-    'biostar.server',
-
+    #'biostar.server',
     # Social login handlers.
     'allauth',
     'allauth.account',
@@ -317,7 +308,7 @@ INSTALLED_APPS = [
     'haystack',
     'crispy_forms',
     'djcelery',
-    'kombu.transport.django',
+    #'kombu.transport.django',
     'south',
     'captcha',
 ]
@@ -343,7 +334,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.request",
     "django.contrib.auth.context_processors.auth",
-    "django.contrib.messages.context_processors.messages",
+    "django.contrib.messages.context_processors.messaging",
 
     # Social authorization specific context.
     "allauth.account.context_processors.account",
@@ -443,7 +434,7 @@ POST_VIEW_MINUTES = 5
 # Default  expiration in seconds.
 CACHE_TIMEOUT = 60
 
-# Should the messages go to email by default
+# Should the messaging go to email by default
 # Valid values are local, default, email
 DEFAULT_MESSAGE_PREF = "local"
 

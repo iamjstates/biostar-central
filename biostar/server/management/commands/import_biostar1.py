@@ -138,12 +138,12 @@ class Command(BaseCommand):
     def migrate_posts(self, source, fname):
         from biostar.server.models import disconnect_all
         from biostar.apps.posts.models import Post, Subscription
-        from biostar.apps.messages.models import Message
+        from biostar.apps.messaging.models import Message
         from biostar.apps.util import html
 
         log = self.stdout.write
 
-        # Disconnect signals they will generate way too many messages
+        # Disconnect signals they will generate way too many messaging
         disconnect_all()
 
         posts = [ p[0] for p in Post.objects.all().values_list("id") ]
@@ -199,7 +199,7 @@ class Command(BaseCommand):
 
         log("migrated %s posts" % Post.objects.all().count())
         log("created %s subscriptions" % Subscription.objects.all().count())
-        log("created %s messages" % Message.objects.all().count())
+        log("created %s messaging" % Message.objects.all().count())
 
     def migrate_users(self, source, fname):
 

@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from biostar.apps.users.models import User
 from biostar.apps.posts.models import Post, Tag, PostView, Subscription
-from biostar.apps.messages.models import Message, MessageBody
+from biostar.apps.messaging.models import Message, MessageBody
 
 import logging, random
 
@@ -252,7 +252,7 @@ class SiteTest(SimpleTestCase):
         "Testing page redirects."
 
         # Pages with redirects.
-        names = "login logout new-post user-messages user-votes".split()
+        names = "login logout new-post user-messaging user-votes".split()
         for name in names:
             r = self.client.get(reverse(name))
             self.code(r, 302)

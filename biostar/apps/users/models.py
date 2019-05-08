@@ -78,7 +78,7 @@ class User(AbstractBaseUser):
     # This designates a user statuses on whether they are allowed to log in.
     status = models.IntegerField(choices=STATUS_CHOICES, default=NEW_USER)
 
-    # The number of new messages for the user.
+    # The number of new messaging for the user.
     new_messages = models.IntegerField(default=0)
 
     # The number of badges for the user.
@@ -238,7 +238,7 @@ class Profile(models.Model):
     # Subscription to daily and weekly digests.
     digest_prefs = models.IntegerField(choices=DIGEST_CHOICES, default=WEEKLY_DIGEST)
 
-    # Opt-in to all messages from the site
+    # Opt-in to all messaging from the site
     opt_in = models.BooleanField(default=False)
 
     def parse_tags(self):
@@ -375,12 +375,12 @@ from django.db.models.signals import post_save
 
 post_save.connect(Profile.auto_create, sender=User)
 
-NEW_USER_WELCOME_TEMPLATE = "messages/new_user_welcome.html"
+NEW_USER_WELCOME_TEMPLATE = "messaging/new_user_welcome.html"
 
 
 def user_create_messages(sender, instance, created, *args, **kwargs):
     "The actions to undertake when creating a new post"
-    from biostar.apps.messages.models import Message, MessageBody
+    from biostar.apps.messaging.models import Message, MessageBody
     from biostar.apps.util import html
     from biostar.const import now
 

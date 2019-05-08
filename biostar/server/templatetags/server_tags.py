@@ -4,7 +4,7 @@ from django.template import Context, Template
 from django.template.defaultfilters import stringfilter
 from django.core.context_processors import csrf
 from biostar.apps.posts.models import Post, Tag
-from biostar.apps.messages.models import Message
+from biostar.apps.messaging.models import Message
 import random, hashlib, urllib
 from datetime import datetime, timedelta
 from django.utils.timezone import utc

@@ -4,7 +4,7 @@ from biostar.apps.users import auth
 from biostar.apps.users.views import EditUser
 import os, random
 from django.core.cache import cache
-from biostar.apps.messages.models import Message
+from biostar.apps.messaging.models import Message
 from biostar.apps.users.models import User
 from biostar.apps.posts.models import Post, Vote, Tag, Subscription, ReplyToken
 from biostar.apps.posts.views import NewPost, NewAnswer, ShortForm
@@ -202,7 +202,7 @@ class MessageList(LoginRequiredMixin, ListView):
     template_name = "message_list.html"
     context_object_name = "objects"
     paginate_by = settings.PAGINATE_BY
-    topic = "messages"
+    topic = "messaging"
 
     def get_queryset(self):
         objs = Message.objects.filter(user=self.request.user).select_related("body", "body__author").order_by(

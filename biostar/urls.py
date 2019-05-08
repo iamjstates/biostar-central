@@ -56,7 +56,7 @@ urlpatterns = patterns('',
     url(r'^p/edit/(?P<pk>\d+)/$', EditPost.as_view(), name="post-edit"),
 
     # Message display.
-    url(r'^local/messages/$', views.MessageList.as_view(), name="user-messages"),
+    url(r'^local/messaging/$', views.MessageList.as_view(), name="user-messaging"),
 
     # Vote display.
     url(r'^local/votes/$', views.VoteList.as_view(), name="user-votes"),
@@ -87,7 +87,6 @@ urlpatterns = patterns('',
 
     # Returns suggested tags
     url(r'^local/search/tags/', search.suggest_tags, name="suggest-tags"),
-
 
     # Returns the planet view
     url(r'^planet/$', BlogPostList.as_view(), name="planet"),

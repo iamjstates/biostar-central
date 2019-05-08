@@ -253,13 +253,13 @@ class PostModeration(LoginRequiredMixin, FormView):
         if action in CLOSE_OFFTOPIC:
             query.update(status=Post.CLOSED)
             messages.success(request, "Closed post: %s" % post.title)
-            content = html.render(name="messages/offtopic_posts.html", user=post.author, comment=get("comment"), post=post)
+            content = html.render(name="messaging/offtopic_posts.html", user=post.author, comment=get("comment"), post=post)
             comment = Post(content=content, type=Post.COMMENT, parent=post, author=user)
             comment.save()
             return response
 
         if action == CROSSPOST:
-            content = html.render(name="messages/crossposted.html", user=post.author, comment=get("comment"), post=post)
+            content = html.render(name="messaging/crossposted.html", user=post.author, comment=get("comment"), post=post)
             comment = Post(content=content, type=Post.COMMENT, parent=post, author=user)
             comment.save()
             return response
@@ -267,7 +267,7 @@ class PostModeration(LoginRequiredMixin, FormView):
         if action == DUPLICATE:
             query.update(status=Post.CLOSED)
             posts = Post.objects.filter(id__in=get("dupe"))
-            content = html.render(name="messages/duplicate_posts.html", user=post.author, comment=get("comment"), posts=posts)
+            content = html.render(name="messaging/duplicate_posts.html", user=post.author, comment=get("comment"), posts=posts)
             comment = Post(content=content, type=Post.COMMENT, parent=post, author=user)
             comment.save()
             return response

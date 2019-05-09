@@ -4,6 +4,7 @@ import os, urllib, logging, feedparser, datetime
 from django.urls import reverse
 from django.utils.timezone import utc
 from django.contrib import admin
+from django.db.models.deletion import CASCADE
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +55,7 @@ class BlogPost(models.Model):
     "Represents an entry of a Blog"
 
     # The blog that generated the entry
-    blog = models.ForeignKey(Blog)
+    blog = models.ForeignKey(Blog, on_delete=CASCADE,)
 
     # A unique id for this entry
     uid = models.CharField(max_length=200, default="", null=False)

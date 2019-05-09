@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
+from django.db.models.deletion import CASCADE
 from django.core import mail
 import logging
 
@@ -42,8 +43,8 @@ class Award(models.Model):
     A badge being awarded to a user.Cannot be ManyToManyField
     because some may be earned multiple times
     '''
-    badge = models.ForeignKey(Badge)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    badge = models.ForeignKey(Badge, on_delete=CASCADE,)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
     date = models.DateTimeField()
     context = models.CharField(max_length=1000, default='')
 

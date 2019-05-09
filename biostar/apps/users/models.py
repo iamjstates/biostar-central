@@ -8,6 +8,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, UserManager
 from django.utils.timezone import utc
+from django.db.models.deletion import CASCADE
 from biostar.apps import util
 import bleach
 from django.urls import reverse
@@ -94,7 +95,7 @@ class User(AbstractBaseUser):
     flair = models.CharField(verbose_name='Flair', max_length=15, default="")
 
     # The site this users belongs to.
-    site = models.ForeignKey(Site, null=True)
+    site = models.ForeignKey(Site, null=True, on_delete=CASCADE)
 
     @property
     def is_moderator(self):

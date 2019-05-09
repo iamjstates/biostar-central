@@ -10,11 +10,13 @@ from django.contrib import admin
 from django.utils.timezone import utc
 from django.utils.translation import ugettext_lazy as _
 from django.core import mail
+from django.db.models.deletion import CASCADE
 
 logger = logging.getLogger(__name__)
 
 def now():
     return datetime.datetime.utcnow().replace(tzinfo=utc)
+
 
 class MessageManager(models.Manager):
 
@@ -26,6 +28,7 @@ class MessageManager(models.Manager):
         "Returns all messaging that were sent by the given user."
         return self.filter(sender=user)
 
+
 # A message body is information sent to users.
 class MessageBody(models.Model):
     """
@@ -34,9 +37,9 @@ class MessageBody(models.Model):
     MAX_SIZE = 120
 
     text = models.TextField(_("Text"))
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='sent_messages', verbose_name=_("Sender"))
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, related_name='sent_messages', verbose_name=_("Sender"))
     subject = models.CharField(_("Subject"), max_length=MAX_SIZE)
-    parent_msg = models.ForeignKey('self', related_name='next_messages', null=True, blank=True, verbose_name=_("Parent message"))
+    parent_msg = models.ForeignKey('self', on_delete=CASCADE, related_name='next_messages', null=True, blank=True, verbose_name=_("Parent message"))
     sent_at = models.DateTimeField(_("sent at"), null=False)
 
     objects = MessageManager()
@@ -56,8 +59,8 @@ from biostar.const import LOCAL_MESSAGE, MESSAGING_TYPE_CHOICES
 # Connects user to message bodies
 class Message(models.Model):
     "Connects recipents to sent messaging"
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='recipients', verbose_name=_("Recipient"))
-    body = models.ForeignKey(MessageBody, related_name='messaging', verbose_name=_("Message"))
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, related_name='recipients', verbose_name=_("Recipient"))
+    body = models.ForeignKey(MessageBody, on_delete=CASCADE, related_name='messaging', verbose_name=_("Message"))
     type = models.IntegerField(choices=MESSAGING_TYPE_CHOICES, default=LOCAL_MESSAGE, db_index=True)
     unread = models.BooleanField(default=True)
     sent_at = models.DateTimeField(db_index=True, null=True)

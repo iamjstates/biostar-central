@@ -8,6 +8,8 @@ from django.contrib.sites.models import Site
 from django.utils.timezone import utc
 from django.utils.translation import ugettext_lazy as _
 from django.urls import reverse
+from django.db.models.deletion import CASCADE
+
 import bleach
 from django.db.models import Q, F
 from django.core.exceptions import ObjectDoesNotExist
@@ -149,10 +151,10 @@ class Post(models.Model):
     title = models.CharField(max_length=200, null=False)
 
     # The user that originally created the post.
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
 
     # The user that edited the post most recently.
-    lastedit_user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='editor')
+    lastedit_user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='editor', on_delete=CASCADE)
 
     # Indicates the information value of the post.
     rank = models.FloatField(default=0, blank=True)
@@ -198,10 +200,10 @@ class Post(models.Model):
     has_accepted = models.BooleanField(default=False, blank=True)
 
     # This will maintain the ancestor/descendant relationship bewteen posts.
-    root = models.ForeignKey('self', related_name="descendants", null=True, blank=True)
+    root = models.ForeignKey('self', related_name="descendants", null=True, blank=True, on_delete=CASCADE)
 
     # This will maintain parent/child replationships between posts.
-    parent = models.ForeignKey('self', null=True, blank=True, related_name='children')
+    parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=CASCADE)
 
     # This is the HTML that the user enters.
     content = models.TextField(default='')
@@ -216,7 +218,7 @@ class Post(models.Model):
     tag_set = models.ManyToManyField(Tag, blank=True, )
 
     # What site does the post belong to.
-    site = models.ForeignKey(Site, null=True)
+    site = models.ForeignKey(Site, null=True, on_delete=CASCADE)
 
     def parse_tags(self):
         return util.split_tags(self.tag_val)
@@ -394,8 +396,8 @@ class ReplyToken(models.Model):
     Connects a user and a post to a unique token. Sending back the token identifies
     both the user and the post that they are replying to.
     """
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    post = models.ForeignKey(Post)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
+    post = models.ForeignKey(Post, on_delete=CASCADE)
     token = models.CharField(max_length=256)
     date = models.DateTimeField(auto_created=True)
 
@@ -432,7 +434,7 @@ class EmailEntry(models.Model):
     DRAFT, PENDING, PUBLISHED = 0, 1, 2
 
     # The email entry may be posted as an entry.
-    post = models.ForeignKey(Post, null=True)
+    post = models.ForeignKey(Post, null=True, on_delete=CASCADE)
 
     # This is a simplified text content of the Post body.
     text = models.TextField(default='')
@@ -464,7 +466,7 @@ class PostView(models.Model):
     Keeps track of post views based on IP address.
     """
     ip = models.GenericIPAddressField(default='', null=True, blank=True)
-    post = models.ForeignKey(Post, related_name="post_views")
+    post = models.ForeignKey(Post, related_name="post_views", on_delete=CASCADE)
     date = models.DateTimeField(auto_now=True)
 
 
@@ -473,8 +475,8 @@ class Vote(models.Model):
     UP, DOWN, BOOKMARK, ACCEPT = range(4)
     TYPE_CHOICES = [(UP, "Upvote"), (DOWN, "DownVote"), (BOOKMARK, "Bookmark"), (ACCEPT, "Accept")]
 
-    author = models.ForeignKey(settings.AUTH_USER_MODEL)
-    post = models.ForeignKey(Post, related_name='votes')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE)
+    post = models.ForeignKey(Post, on_delete=CASCADE, related_name='votes')
     type = models.IntegerField(choices=TYPE_CHOICES, db_index=True)
     date = models.DateTimeField(db_index=True, auto_now=True)
 
@@ -504,8 +506,8 @@ class Subscription(models.Model):
     class Meta:
         unique_together = (("user", "post"),)
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"), db_index=True)
-    post = models.ForeignKey(Post, verbose_name=_("Post"), related_name="subs", db_index=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, verbose_name=_("User"), db_index=True)
+    post = models.ForeignKey(Post, on_delete=CASCADE, verbose_name=_("Post"), related_name="subs", db_index=True)
     type = models.IntegerField(choices=MESSAGING_TYPE_CHOICES, default=LOCAL_MESSAGE, db_index=True)
     date = models.DateTimeField(_("Date"), db_index=True)
 

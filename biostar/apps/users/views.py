@@ -4,7 +4,7 @@ from django.views.generic import TemplateView, DetailView, ListView, FormView, U
 from .models import User, Profile
 from . import auth
 from django import forms
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Fieldset, Submit, ButtonHolder, Div
 from django.shortcuts import render, redirect

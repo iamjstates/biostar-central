@@ -12,7 +12,7 @@ from optparse import make_option
 from biostar.apps.util import html
 from django.contrib.sites.models import Site
 from django.db.models import Count
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.mail import EmailMultiAlternatives
 
 def render_digest(days, text_tmpl, html_tmpl, send, options, limit=10, verbosity=1):

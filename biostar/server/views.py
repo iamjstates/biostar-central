@@ -27,7 +27,7 @@ from . import moderate
 from django.http import Http404
 import markdown, pyzmail
 from biostar.apps.util.email_reply_parser import EmailReplyParser
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 logger = logging.getLogger(__name__)
 

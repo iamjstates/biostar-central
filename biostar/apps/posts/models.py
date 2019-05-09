@@ -7,7 +7,7 @@ from django.contrib.sites.models import Site
 
 from django.utils.timezone import utc
 from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 import bleach
 from django.db.models import Q, F
 from django.core.exceptions import ObjectDoesNotExist

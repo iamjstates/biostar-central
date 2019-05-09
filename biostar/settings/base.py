@@ -43,8 +43,8 @@ CATEGORIES = START_CATEGORIES + NAVBAR_TAGS + END_CATEGORIES
 # It should point to a template that will be included.
 TOP_BANNER = ""
 
+SECRET_KEY = 'pw#q23)-^6y!7qetk^*h#(qw6l2!e905wgb%t[#$`i+wcxk)2!'
 
-# TOP_BANNER = "test-banner.html"
 
 def get_env(name, default=None, strict=False, func=None):
     """Get the environment variable or return exception"""
@@ -129,12 +129,12 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DATABASE_NAME,
-        'USER': '',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'biostar',
+        'USER': 'jstates001',
         'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
+        'HOST': '127.0.0.1',
+        'PORT': '6000',
     }
 }
 
@@ -284,6 +284,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     # Biostar specific apps.
     'biostar.apps.BiostarConfig',
+    'biostar.apps.badges.apps.BadgesConfig',
+    'biostar.apps.messaging.apps.MessagingConfig',
+    'biostar.apps.planet.apps.PlanetConfig',
+    'biostar.apps.posts.apps.PostConfig',
+    'biostar.apps.users.apps.UserConfig',
     #'biostar.apps.users',
     #'biostar.apps.util',
     #'biostar.apps.posts',
@@ -309,7 +314,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'djcelery',
     #'kombu.transport.django',
-    'south',
     'captcha',
 ]
 

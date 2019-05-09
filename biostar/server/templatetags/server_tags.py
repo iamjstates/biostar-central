@@ -9,7 +9,7 @@ import random, hashlib, urllib
 from datetime import datetime, timedelta
 from django.utils.timezone import utc
 from django import template
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from biostar import const
 from biostar.server.views import LATEST
 

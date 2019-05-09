@@ -1,6 +1,6 @@
 from django.test import TestCase, SimpleTestCase
 from django.test import Client
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.conf import settings
 from biostar.apps.users.models import User
 from biostar.apps.posts.models import Post, Tag, PostView, Subscription

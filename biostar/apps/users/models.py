@@ -10,7 +10,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, UserMa
 from django.utils.timezone import utc
 from biostar.apps import util
 import bleach
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.sites.models import Site
 from datetime import datetime, timedelta
 

@@ -3,7 +3,7 @@ import json
 import logging
 
 from django.test import TestCase
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from ..api import datetime_to_iso, datetime_to_unix
 from biostar.apps.posts.models import Post

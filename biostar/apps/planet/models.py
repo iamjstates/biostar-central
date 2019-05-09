@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 import os, urllib, logging, feedparser, datetime
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.timezone import utc
 from django.contrib import admin
 

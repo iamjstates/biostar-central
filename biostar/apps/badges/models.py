@@ -1,12 +1,11 @@
 from django.db import models
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core import mail
 import logging
 
 logger = logging.getLogger(__name__)
 
-# Create your models here.
 
 class Badge(models.Model):
     BRONZE, SILVER, GOLD = range(3)
@@ -48,6 +47,7 @@ class Award(models.Model):
     date = models.DateTimeField()
     context = models.CharField(max_length=1000, default='')
 
+
 class AwardDef(object):
     def __init__(self, name, desc, func, icon, type=Badge.BRONZE):
         self.name = name
@@ -61,14 +61,14 @@ class AwardDef(object):
         try:
             value = self.fun(*args, **kwargs)
             return value
-        except Exception, exc:
+        except Exception as exc:
             logger.error("validator error %s" % exc)
         return 0
 
     def __hash__(self):
         return hash(self.name)
 
-    def __cmp__(self, other):
-        return cmp(self.name, other.name)
+    def __ne__(self, other):
+        return (self.name, other.name)
 
 

@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class PlanetConfig(AppConfig):
-    name = 'planet'
+    name = 'biostar.apps.planet'
